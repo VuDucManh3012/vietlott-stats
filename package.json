@@ -1,0 +1,17 @@
+{
+  "name": "vietlott-stats",
+  "version": "1.0.0",
+  "description": "Thu thap ket qua Vietlott (Mega 6/45, Power 6/55, Max 3D, Max 3D Pro) va thong ke tan suat",
+  "type": "module",
+  "main": "src/cli.js",
+  "scripts": {
+    "fetch": "node src/cli.js fetch",
+    "stats": "node src/cli.js stats",
+    "report": "node src/cli.js report",
+    "all": "node src/cli.js all"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}

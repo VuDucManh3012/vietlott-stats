@@ -1,0 +1,62 @@
+# Moi ngay cao ky moi tu vietlott.vn, dung lai bao cao HTML va deploy len GitHub Pages.
+#
+# Du lieu CSV duoc commit nguoc ve repo: lenh fetch chi tai ky moi khi data/ da co san
+# (xem src/cli.js), khong giu lai thi moi lan chay se cao lai toan bo 400 trang.
+name: Cap nhat va deploy bao cao
+
+on:
+  schedule:
+    # 13:00 UTC = 20:00 gio Viet Nam. Vietlott quay 18:00-18:30 nen 20:00 la da co ket qua.
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # commit data/ moi ve repo
+  pages: write
+  id-token: write
+
+# Khong huy giua chung: job dang commit data/ ma bi cat thi repo lech trang thai.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cao du lieu va dung bao cao
+        run: node src/cli.js all
+
+      - name: Commit du lieu moi
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --staged --quiet || git commit -m "chore: cap nhat du lieu $(date -u +%Y-%m-%d)"
+          git push
+
+      # Pages phuc vu index.html o goc, con CLI xuat ra reports/vietlott.html.
+      - name: Chuan bi thu muc site
+        run: |
+          mkdir -p site
+          cp reports/vietlott.html site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
