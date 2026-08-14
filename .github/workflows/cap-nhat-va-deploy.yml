@@ -1,21 +1,25 @@
-# Moi ngay cao ky moi tu vietlott.vn, dung lai bao cao HTML va deploy len GitHub Pages.
+# Dung lai bao cao HTML tu du lieu trong data/ va deploy len GitHub Pages.
 #
-# Du lieu CSV duoc commit nguoc ve repo: lenh fetch chi tai ky moi khi data/ da co san
-# (xem src/cli.js), khong giu lai thi moi lan chay se cao lai toan bo 400 trang.
-name: Cap nhat va deploy bao cao
+# Tai sao khong cao du lieu ngay tai day: vietlott.vn dung Cloudflare, IP datacenter cua
+# runner GitHub bi tra ve 403 "cf-mitigated: challenge" (da do thu 14/08/2026). Nen viec cao
+# van chay o may ca nhan qua cap-nhat.bat - script do commit data/ roi push, kich hoat workflow nay.
+#
+# Buoc report khong goi mang, chi doc CSV, nen chay tren runner hoan toan on.
+name: Dung bao cao va deploy
 
 on:
-  schedule:
-    # 13:00 UTC = 20:00 gio Viet Nam. Vietlott quay 18:00-18:30 nen 20:00 la da co ket qua.
-    - cron: '0 13 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'src/**'
+      - '.github/workflows/cap-nhat-va-deploy.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write   # commit data/ moi ve repo
   pages: write
   id-token: write
 
-# Khong huy giua chung: job dang commit data/ ma bi cat thi repo lech trang thai.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -28,18 +32,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
-      - name: Cao du lieu va dung bao cao
-        run: node src/cli.js all
-
-      - name: Commit du lieu moi
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
-          git diff --staged --quiet || git commit -m "chore: cap nhat du lieu $(date -u +%Y-%m-%d)"
-          git push
+      - name: Dung bao cao tu du lieu da luu
+        run: node src/cli.js report
 
       # Pages phuc vu index.html o goc, con CLI xuat ra reports/vietlott.html.
       - name: Chuan bi thu muc site

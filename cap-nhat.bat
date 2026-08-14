@@ -35,6 +35,27 @@ if errorlevel 1 (
   exit /b 1
 )
 
+REM ---- Dong bo len GitHub de xem tren dien thoai --------------------------
+REM  Chi day du lieu CSV len; GitHub Actions se tu dung lai bao cao va deploy.
+REM  Cao du lieu phai chay o day vi vietlott.vn chan IP datacenter cua GitHub.
+REM  Loi git khong lam hong ca lan chay: bao cao tren may van dung.
+where git >nul 2>nul
+if not errorlevel 1 (
+  git add data
+  git diff --staged --quiet
+  if errorlevel 1 (
+    echo   Dang dong bo len GitHub...
+    git commit -q -m "chore: cap nhat du lieu" && git push -q
+    if errorlevel 1 (
+      echo   Khong dong bo duoc - ban tren dien thoai se van la ban cu.
+    ) else (
+      echo   Da dong bo. Sau ~2 phut xem tai: https://vuducmanh3012.github.io/vietlott-stats/
+    )
+  ) else (
+    echo   Khong co ky moi, khong can dong bo.
+  )
+)
+
 echo.
 echo   Xong. Bao cao: reports\vietlott.html
 echo.
