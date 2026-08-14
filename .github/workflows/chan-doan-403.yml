@@ -1,0 +1,17 @@
+# Workflow tam: xac dinh 403 tu runner GitHub la do chan IP hay do thieu header.
+# Xoa sau khi co ket luan.
+name: Chan doan 403
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Do phan hoi tu vietlott.vn
+        run: node scripts/chan-doan-403.js
