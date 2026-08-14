@@ -66,6 +66,28 @@ Nội dung file .bat viết bằng tiếng Việt **không dấu** — `cmd.exe`
 thống nên chữ có dấu sẽ ra ký tự rác. Phần trễ cuối file dùng `ping` thay cho `timeout` vì `timeout`
 đòi stdin là console, sẽ lỗi khi gọi từ script khác hoặc từ Task Scheduler.
 
+### Xem trên điện thoại
+
+Báo cáo tự deploy lên GitHub Pages: **https://vuducmanh3012.github.io/vietlott-stats/**
+
+File HTML tự chứa hoàn toàn (không CDN, không script ngoài) và đã có breakpoint cho màn hình hẹp,
+nên mở trên điện thoại là dùng được ngay — thêm vào màn hình chính là có "app".
+
+Luồng cập nhật tách làm hai nửa:
+
+```
+PC:     cap-nhat.bat  →  cào vietlott.vn  →  commit data/*.csv  →  push
+GitHub: nhận push     →  node src/cli.js report  →  deploy Pages   (~2 phút)
+```
+
+Việc cào **bắt buộc** chạy ở máy cá nhân, không đưa lên Actions được: vietlott.vn đứng sau
+Cloudflare và IP datacenter của runner GitHub bị trả về `403 cf-mitigated: challenge` (đo ngày
+14/08/2026 — cả 3 biến thể header đều bị chặn như nhau, nên không phải lỗi thiếu header). Ngược lại
+bước dựng báo cáo chỉ đọc CSV, không gọi mạng, nên chạy trên runner vô tư.
+
+Hệ quả: trang trên điện thoại chỉ mới bằng lần bấm `cap-nhat.bat` gần nhất. Muốn nó tự cập nhật
+hằng ngày thì đặt lịch chạy `cap-nhat.bat /noopen` bằng Task Scheduler của Windows.
+
 ### Lịch quay — khi nào nên chạy lại
 
 Vietlott quay khoảng 18:00–18:30, nên chạy sau 18:30 mới có kết quả trong ngày.

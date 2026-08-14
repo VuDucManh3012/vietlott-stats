@@ -1,0 +1,3 @@
+# CSV do script sinh ra, luon dung LF. Danh dau -text de git khoi doi dau dong va khoi
+# in canh bao "LF will be replaced by CRLF" moi lan cap-nhat.bat commit du lieu.
+*.csv -text
