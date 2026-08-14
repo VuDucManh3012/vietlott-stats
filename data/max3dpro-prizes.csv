@@ -1,4 +1,12 @@
 draw_id,play,tier,pattern,numbers,note,winners,value
+00765,d6,Giải Đặc biệt,,273 166,,0,2000000000
+00765,d6,Giải phụ Đặc biệt,,166 273,,0,400000000
+00765,d6,Giải Nhất,,171 549 956 623,Trùng 2 bộ ba số bất kỳ trong 4 bộ ba số,10,30000000
+00765,d6,Giải Nhì,,316 168 821 014 894 352,Trùng 2 bộ ba số bất kỳ trong 6 bộ ba số,9,10000000
+00765,d6,Giải Ba,,269 324 676 556 313 214 134 749,Trùng 2 bộ ba số bất kỳ trong 8 bộ ba số,15,4000000
+00765,d6,Giải tư,,273 166 171 549 956 623 316 168 821 014 894 352 269 324 676 556 313 214 134 749,Trùng 2 bộ ba số bất kỳ trong 20 bộ ba số,84,1000000
+00765,d6,Giải năm,,273 166,Trùng 1 bộ ba số bất kỳ trong 2 bộ ba số,743,100000
+00765,d6,Giải sáu,,171 549 956 623 316 168 821 014 894 352 269 324 676 556 313 214 134 749,Trùng 1 bộ ba số bất kỳ trong 18 bộ ba số,6771,40000
 00764,d6,Giải Đặc biệt,,712 106,,0,2000000000
 00764,d6,Giải phụ Đặc biệt,,106 712,,0,400000000
 00764,d6,Giải Nhất,,430 059 771 643,Trùng 2 bộ ba số bất kỳ trong 4 bộ ba số,2,30000000
